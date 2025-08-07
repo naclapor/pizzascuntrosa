@@ -69,8 +69,10 @@
   </a>
   <footer>© 2025 Pizza Scuntrosa. All rights reserved.</footer>
 
-  <!-- THREE.js -->
+  <!-- Three.js + loaders -->
   <script src="https://cdn.jsdelivr.net/npm/three@0.150.1/build/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.150.1/examples/js/loaders/MTLLoader.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.150.1/examples/js/loaders/OBJLoader.js"></script>
 
   <script>
     const container = document.getElementById('canvas-container');
@@ -89,18 +91,30 @@
     directionalLight.position.set(0, 1, 1);
     scene.add(directionalLight);
 
-    // Cubo rosso di test
-    const geometry = new THREE.BoxGeometry(1, 1, 1);
-    const material = new THREE.MeshStandardMaterial({ color: 0xff0000 });
-    const cube = new THREE.Mesh(geometry, material);
-    scene.add(cube);
+    // Carica MTL e OBJ
+    const mtlLoader = new THREE.MTLLoader();
+    mtlLoader.load('pizza.mtl', (materials) => {
+      materials.preload();
 
-    function animate() {
-      requestAnimationFrame(animate);
-      cube.rotation.y += 0.01;
-      renderer.render(scene, camera);
-    }
-    animate();
+      const objLoader = new THREE.OBJLoader();
+      objLoader.setMaterials(materials);
+      objLoader.load('pizza.obj', (object) => {
+        // Eventuale rotazione iniziale per inquadrare meglio
+        object.rotation.x = -0.5;
+        scene.add(object);
+
+        function animate() {
+          requestAnimationFrame(animate);
+          object.rotation.y += 0.01;
+          renderer.render(scene, camera);
+        }
+        animate();
+      }, undefined, (error) => {
+        console.error('Errore caricamento pizza.obj:', error);
+      });
+    }, undefined, (error) => {
+      console.error('Errore caricamento pizza.mtl:', error);
+    });
 
     window.addEventListener('resize', () => {
       const width = container.clientWidth;
