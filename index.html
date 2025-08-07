@@ -2,29 +2,21 @@
 <html lang="it">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>PIZZA SCUNTROSA</title>
   <link rel="stylesheet" href="style.css" />
-
-  <!-- importmap per risolvere i moduli da CDN -->
-  <script async src="https://unpkg.com/es-module-shims@1.6.3/dist/es-module-shims.js"></script>
-  <script type="importmap">
-    {
-      "imports": {
-        "three": "https://unpkg.com/three@v0.163.0/build/three.module.js",
-        "three/addons/": "https://unpkg.com/three@v0.163.0/examples/jsm/"
-      }
-    }
-  </script>
 </head>
 <body>
+  <header>
   <h1>PIZZA SCUNTROSA</h1>
-  <div id="canvas-container"></div>
+  </header>
+  <main></main>
   <a href="https://naclapor.itch.io/pizza-scuntrosa" target="_blank" class="btn-itch" rel="noopener noreferrer">
     Play on Itch.io
   </a>
   <footer>© 2025 Pizza Scuntrosa. All rights reserved.</footer>
-
-  <script type="module" src="./main.js"></script>
+  
+  
+  <script src="https://cdn.jsdelivr.net/npm/three@0.153.0/build/three.min.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
