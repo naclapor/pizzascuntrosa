@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+// OrbitControls rimosso perché non serve
 
 const container = document.getElementById('canvas-container');
 
@@ -19,15 +19,7 @@ const camera = new THREE.PerspectiveCamera(
 );
 camera.position.set(0, 1.5, 3);
 
-const controls = new OrbitControls(camera, renderer.domElement);
-controls.enableDamping = true;
-controls.enablePan = false;
-controls.minDistance = 1;
-controls.maxDistance = 10;
-controls.target.set(0, 1, 0);
-controls.update();
-
-// Luce
+// Luci
 const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
 scene.add(ambientLight);
 
@@ -39,23 +31,26 @@ scene.add(directionalLight);
 // Caricamento modello pizza.glb dalla cartella public/pizza/
 const loader = new GLTFLoader();
 
-loader.load('pizza.glb', (gltf) => {
-  const model = gltf.scene;
+let pizzaModel = null;
 
-  model.traverse((child) => {
+loader.load('pizza.glb', (gltf) => {
+  pizzaModel = gltf.scene;
+
+  pizzaModel.traverse((child) => {
     if (child.isMesh) {
       child.castShadow = true;
       child.receiveShadow = true;
     }
   });
 
-  model.position.set(0, 0, 0);
-  model.scale.set(1, 1, 1);
-  scene.add(model);
+  pizzaModel.position.set(0, 0, 0);
+  pizzaModel.scale.set(1, 1, 1);
+  scene.add(pizzaModel);
 }, undefined, (error) => {
   console.error('Errore caricamento modello:', error);
 });
 
+// Gestione resize
 window.addEventListener('resize', () => {
   const width = container.clientWidth;
   const height = container.clientHeight;
@@ -64,9 +59,16 @@ window.addEventListener('resize', () => {
   camera.updateProjectionMatrix();
 });
 
+// Animazione
 function animate() {
   requestAnimationFrame(animate);
-  controls.update();
+
+  if (pizzaModel) {
+    pizzaModel.rotation.x += 0.01;
+    pizzaModel.rotation.y += 0.02;
+    pizzaModel.rotation.z += 0.005;
+  }
+
   renderer.render(scene, camera);
 }
 animate();
