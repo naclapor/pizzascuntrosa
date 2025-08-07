@@ -2,14 +2,15 @@ import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
 const scene = new THREE.Scene();
-scene.background = new THREE.Color(0xfff8ec);
+scene.background = null; // Sfondo trasparente
 
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-camera.position.z = 3;  // Più lontano
-camera.position.y = 0.5; // Più in alto
+camera.position.z = 3;
+camera.position.y = 0.5;
 
-const renderer = new THREE.WebGLRenderer({ alpha: true });
+const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setClearColor(0x000000, 0); // Trasparente, niente sfondo bianco
 document.getElementById('canvas-container').appendChild(renderer.domElement);
 
 // Luci
@@ -17,10 +18,9 @@ const light = new THREE.DirectionalLight(0xffffff, 1);
 light.position.set(1, 1, 1);
 scene.add(light);
 
-const ambientLight = new THREE.AmbientLight(0x404040); // luce soffusa
+const ambientLight = new THREE.AmbientLight(0x404040);
 scene.add(ambientLight);
 
-// Caricamento modello
 const loader = new GLTFLoader();
 let pizza;
 
@@ -28,8 +28,8 @@ loader.load(
   'pizza.glb',
   (gltf) => {
     pizza = gltf.scene;
-    pizza.position.set(0, -0.5, 0); // Alza leggermente il modello
-    pizza.scale.set(1.5, 1.5, 1.5); // Scala se necessario
+    pizza.position.set(0, -0.5, 0);
+    pizza.scale.set(1.5, 1.5, 1.5);
     scene.add(pizza);
   },
   undefined,
@@ -38,7 +38,6 @@ loader.load(
   }
 );
 
-// Animazione
 function animate() {
   requestAnimationFrame(animate);
 
@@ -52,3 +51,15 @@ function animate() {
 }
 
 animate();
+
+// Aggiorna dimensioni al resize della finestra
+window.addEventListener('resize', () => {
+  const container = document.getElementById('canvas-container');
+  const width = container.clientWidth;
+  const height = container.clientHeight;
+
+  camera.aspect = width / height;
+  camera.updateProjectionMatrix();
+
+  renderer.setSize(width, height);
+});
