@@ -8,9 +8,8 @@ const camera = new THREE.PerspectiveCamera(75,  window.innerWidth / (window.inne
 camera.position.z = 4;
 
 const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-renderer.setSize(window.innerWidth, window.innerHeight);
-renderer.setClearColor(0x000000, 0); // Trasparente, niente sfondo bianco
-document.getElementById('canvas-container').appendChild(renderer.domElement);
+renderer.setSize(window.innerWidth, window.innerHeight - 100);
+document.querySelector('main').appendChild(renderer.domElement);
 
 // Luci
 const light = new THREE.DirectionalLight(0xffffff, 1);
@@ -27,7 +26,7 @@ loader.load(
   'pizza.glb',
   (gltf) => {
     pizza = gltf.scene;
-    pizza.position.set(0, -0.5, 0);
+    pizza.position.set(0, 0, 0);
     pizza.scale.set(1.5, 1.5, 1.5);
     scene.add(pizza);
   },
@@ -43,7 +42,7 @@ function animate() {
   if (pizza) {
     pizza.rotation.x += 0.01;
     pizza.rotation.y += 0.01;
-    pizza.rotation.z += 0.005;
+    pizza.rotation.z += 0.01;
   }
 
   renderer.render(scene, camera);
@@ -51,11 +50,10 @@ function animate() {
 
 animate();
 
-// Aggiorna dimensioni al resize della finestra
+// Aggiorna dimensioni canvas al ridimensionamento finestra
 window.addEventListener('resize', () => {
-  const container = document.getElementById('canvas-container');
-  const width = container.clientWidth;
-  const height = container.clientHeight;
+  const width = window.innerWidth;
+  const height = window.innerHeight - 100; // togli header/footer (totale 100px circa)
 
   camera.aspect = width / height;
   camera.updateProjectionMatrix();
