@@ -73,7 +73,6 @@
 
   <script>
     const container = document.getElementById('canvas-container');
-
     const scene = new THREE.Scene();
 
     const camera = new THREE.PerspectiveCamera(
@@ -82,7 +81,7 @@
       0.1,
       1000
     );
-    camera.position.z = 4;
+    camera.position.z = 3;
 
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setSize(container.clientWidth, container.clientHeight);
@@ -95,24 +94,25 @@
     directionalLight.position.set(0, 1, 1);
     scene.add(directionalLight);
 
-    // Fetta di pizza - cono triangolare piccolo
-    const pizzaGeometry = new THREE.ConeGeometry(1, 1.5, 3);
-    const pizzaMaterial = new THREE.MeshStandardMaterial({ color: 0xfedc62, flatShading: true });
-    const pizzaSlice = new THREE.Mesh(pizzaGeometry, pizzaMaterial);
-    pizzaSlice.rotation.x = Math.PI; // base verso il basso
-    scene.add(pizzaSlice);
+    // Geometria triangolo piano (2D) usando BufferGeometry
+    const geometry = new THREE.BufferGeometry();
 
-    // Crosta: piccolo cilindro marrone alla base del cono
-    const crustGeometry = new THREE.CylinderGeometry(1, 1, 0.1, 32);
-    const crustMaterial = new THREE.MeshStandardMaterial({ color: 0x8b5a2b, flatShading: true });
-    const crust = new THREE.Mesh(crustGeometry, crustMaterial);
-    crust.position.y = -0.75; // sotto la fetta
-    scene.add(crust);
+    const vertices = new Float32Array([
+      0,  1, 0,    // vertice alto (x,y,z)
+     -0.866, -0.5, 0,  // vertice basso sinistro (cos 30°, sin 30°)
+      0.866, -0.5, 0   // vertice basso destro
+    ]);
+    geometry.setAttribute('position', new THREE.BufferAttribute(vertices, 3));
+
+    // Materiale arancione/giallo pizza
+    const material = new THREE.MeshStandardMaterial({ color: 0xffc845, side: THREE.DoubleSide });
+
+    const triangle = new THREE.Mesh(geometry, material);
+    scene.add(triangle);
 
     function animate() {
       requestAnimationFrame(animate);
-      pizzaSlice.rotation.y += 0.01;
-      crust.rotation.y += 0.01;
+      triangle.rotation.y += 0.02;  // rotazione più veloce
       renderer.render(scene, camera);
     }
     animate();
