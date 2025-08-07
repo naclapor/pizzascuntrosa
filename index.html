@@ -71,11 +71,10 @@
   </a>
   <footer>© 2025 Pizza Scuntrosa. All rights reserved.</footer>
 
-  <!-- Three.js + GLTFLoader -->
-  <script src="https://cdn.jsdelivr.net/npm/three@0.150.1/build/three.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.150.1/examples/js/loaders/GLTFLoader.js"></script>
+  <script type="module">
+    import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.150.1/build/three.module.js';
+    import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.150.1/examples/jsm/loaders/GLTFLoader.js';
 
-  <script>
     const container = document.getElementById('canvas-container');
 
     const scene = new THREE.Scene();
@@ -88,26 +87,34 @@
 
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
     scene.add(ambientLight);
+
     const directionalLight = new THREE.DirectionalLight(0xffffff, 0.7);
     directionalLight.position.set(0, 1, 1);
     scene.add(directionalLight);
 
-    const loader = new THREE.GLTFLoader();
+    const loader = new GLTFLoader();
 
-    loader.load('pizza.glb', (gltf) => {
-      const model = gltf.scene;
-      model.rotation.x = -0.5; // regola rotazione verticale se vuoi
-      scene.add(model);
+    loader.load('pizza.glb',
+      (gltf) => {
+        console.log('Modello caricato:', gltf);
+        const model = gltf.scene;
+        model.rotation.x = -0.5;
+        scene.add(model);
 
-      function animate() {
-        requestAnimationFrame(animate);
-        model.rotation.y += 0.01; // rotazione continua
-        renderer.render(scene, camera);
+        function animate() {
+          requestAnimationFrame(animate);
+          model.rotation.y += 0.01;
+          renderer.render(scene, camera);
+        }
+        animate();
+      },
+      (xhr) => {
+        console.log((xhr.loaded / xhr.total * 100) + '% caricato');
+      },
+      (error) => {
+        console.error('Errore caricamento pizza.glb:', error);
       }
-      animate();
-    }, undefined, (error) => {
-      console.error('Errore caricamento pizza.glb:', error);
-    });
+    );
 
     window.addEventListener('resize', () => {
       const width = container.clientWidth;
