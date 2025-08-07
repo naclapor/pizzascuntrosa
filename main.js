@@ -4,10 +4,8 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 const scene = new THREE.Scene();
 scene.background = null; // Sfondo trasparente
 
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-camera.position.z = 0;
-camera.position.x = 0;
-camera.position.y = 0;
+const camera = new THREE.PerspectiveCamera(75,  window.innerWidth / (window.innerHeight - 100), 0.1, 1000);
+camera.position.z = 4;
 
 const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
