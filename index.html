@@ -82,7 +82,7 @@
       0.1,
       1000
     );
-    camera.position.z = 5;
+    camera.position.z = 4;
 
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setSize(container.clientWidth, container.clientHeight);
@@ -95,20 +95,24 @@
     directionalLight.position.set(0, 1, 1);
     scene.add(directionalLight);
 
-    // Crea una geometria a cono, con 3 segmenti radiali per fare un triangolo 3D (fetta di pizza)
-    const geometry = new THREE.ConeGeometry(1.5, 2, 3); // raggio 1.5, altezza 2, 3 lati
-    // Colore giallo pizza
-    const material = new THREE.MeshStandardMaterial({ color: 0xfedc62, flatShading: true });
-    const pizzaSlice = new THREE.Mesh(geometry, material);
-
-    // Ruota il cono in modo che la base sia verso il basso, come una fetta di pizza appoggiata
-    pizzaSlice.rotation.x = Math.PI; // 180 gradi
-
+    // Fetta di pizza - cono triangolare piccolo
+    const pizzaGeometry = new THREE.ConeGeometry(1, 1.5, 3);
+    const pizzaMaterial = new THREE.MeshStandardMaterial({ color: 0xfedc62, flatShading: true });
+    const pizzaSlice = new THREE.Mesh(pizzaGeometry, pizzaMaterial);
+    pizzaSlice.rotation.x = Math.PI; // base verso il basso
     scene.add(pizzaSlice);
+
+    // Crosta: piccolo cilindro marrone alla base del cono
+    const crustGeometry = new THREE.CylinderGeometry(1, 1, 0.1, 32);
+    const crustMaterial = new THREE.MeshStandardMaterial({ color: 0x8b5a2b, flatShading: true });
+    const crust = new THREE.Mesh(crustGeometry, crustMaterial);
+    crust.position.y = -0.75; // sotto la fetta
+    scene.add(crust);
 
     function animate() {
       requestAnimationFrame(animate);
-      pizzaSlice.rotation.y += 0.01; // ruota lentamente sul suo asse verticale
+      pizzaSlice.rotation.y += 0.01;
+      crust.rotation.y += 0.01;
       renderer.render(scene, camera);
     }
     animate();
