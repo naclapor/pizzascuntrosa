@@ -1,74 +1,54 @@
-import * as THREE from 'three';
-import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-// OrbitControls rimosso perché non serve
-
-const container = document.getElementById('canvas-container');
-
-const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-renderer.setSize(container.clientWidth, container.clientHeight);
-renderer.setPixelRatio(window.devicePixelRatio);
-container.appendChild(renderer.domElement);
+import * as THREE from './three.module.js';
+import { GLTFLoader } from './GLTFLoader.js';
 
 const scene = new THREE.Scene();
+scene.background = new THREE.Color(0xfff8ec);
 
-const camera = new THREE.PerspectiveCamera(
-  45,
-  container.clientWidth / container.clientHeight,
-  0.1,
-  1000
-);
-camera.position.set(0, 1.5, 3);
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+camera.position.z = 3;  // Più lontano
+camera.position.y = 0.5; // Più in alto
+
+const renderer = new THREE.WebGLRenderer({ alpha: true });
+renderer.setSize(window.innerWidth, window.innerHeight);
+document.getElementById('canvas-container').appendChild(renderer.domElement);
 
 // Luci
-const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+const light = new THREE.DirectionalLight(0xffffff, 1);
+light.position.set(1, 1, 1);
+scene.add(light);
+
+const ambientLight = new THREE.AmbientLight(0x404040); // luce soffusa
 scene.add(ambientLight);
 
-const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-directionalLight.position.set(5, 10, 7.5);
-directionalLight.castShadow = true;
-scene.add(directionalLight);
-
-// Caricamento modello pizza.glb dalla cartella public/pizza/
+// Caricamento modello
 const loader = new GLTFLoader();
+let pizza;
 
-let pizzaModel = null;
-
-loader.load('pizza.glb', (gltf) => {
-  pizzaModel = gltf.scene;
-
-  pizzaModel.traverse((child) => {
-    if (child.isMesh) {
-      child.castShadow = true;
-      child.receiveShadow = true;
-    }
-  });
-
-  pizzaModel.position.set(0, 0, 0);
-  pizzaModel.scale.set(1, 1, 1);
-  scene.add(pizzaModel);
-}, undefined, (error) => {
-  console.error('Errore caricamento modello:', error);
-});
-
-// Gestione resize
-window.addEventListener('resize', () => {
-  const width = container.clientWidth;
-  const height = container.clientHeight;
-  renderer.setSize(width, height);
-  camera.aspect = width / height;
-  camera.updateProjectionMatrix();
-});
+loader.load(
+  './public/pizza/pizza.glb',
+  (gltf) => {
+    pizza = gltf.scene;
+    pizza.position.set(0, -0.5, 0); // Alza leggermente il modello
+    pizza.scale.set(1.5, 1.5, 1.5); // Scala se necessario
+    scene.add(pizza);
+  },
+  undefined,
+  (error) => {
+    console.error('Errore caricamento modello:', error);
+  }
+);
 
 // Animazione
 function animate() {
   requestAnimationFrame(animate);
 
-  if (pizzaModel) {
-    pizzaModel.rotation.x += 0.01;
-    pizzaModel.rotation.y += 0.02;
-    pizzaModel.rotation.z += 0.005;
+  if (pizza) {
+    pizza.rotation.x += 0.01;
+    pizza.rotation.y += 0.01;
+    pizza.rotation.z += 0.005;
   }
 
   renderer.render(scene, camera);
 }
+
 animate();
