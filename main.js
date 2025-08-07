@@ -60,3 +60,4 @@ window.addEventListener('resize', () => {
 
   renderer.setSize(width, height);
 });
+
