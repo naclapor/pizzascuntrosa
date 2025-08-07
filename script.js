@@ -20,7 +20,7 @@ scene.add(light);
 const ambientLight = new THREE.AmbientLight(0x404040);
 scene.add(ambientLight);
 
-const loader = new THREE.GLTFLoader();
+const loader = new GLTFLoader();
 let pizza;
 
 loader.load(
