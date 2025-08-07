@@ -2,7 +2,6 @@
 <html lang="it">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>PIZZA SCUNTROSA</title>
   <style>
     body, html {
@@ -13,16 +12,15 @@
       flex-direction: column;
       align-items: center;
       justify-content: space-between;
-      overflow: hidden;
       color: #222;
     }
     h1 {
       margin-top: 20px;
       font-weight: bold;
       font-size: 3rem;
-      user-select: none;
       text-align: center;
       width: 100%;
+      user-select: none;
     }
     #canvas-container {
       flex: 1;
@@ -76,7 +74,6 @@
     import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.150.1/examples/jsm/loaders/GLTFLoader.js';
 
     const container = document.getElementById('canvas-container');
-
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
     camera.position.z = 5;
@@ -96,7 +93,6 @@
 
     loader.load('pizza.glb',
       (gltf) => {
-        console.log('Modello caricato:', gltf);
         const model = gltf.scene;
         model.rotation.x = -0.5;
         scene.add(model);
