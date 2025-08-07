@@ -1,15 +1,16 @@
-import * as THREE from 'three';
-import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+// Non serve più import
 
 const scene = new THREE.Scene();
 scene.background = null; // Sfondo trasparente
 
-const camera = new THREE.PerspectiveCamera(75,  window.innerWidth / (window.innerHeight - 100), 0.1, 1000);
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth / (window.innerHeight - 100), 0.1, 1000);
 camera.position.z = 4;
 
 const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight - 100);
-document.querySelector('main').appendChild(renderer.domElement);
+
+// Cambia appendChild su #canvas-container per rispettare html
+document.getElementById('canvas-container').appendChild(renderer.domElement);
 
 // Luci
 const light = new THREE.DirectionalLight(0xffffff, 1);
@@ -19,7 +20,7 @@ scene.add(light);
 const ambientLight = new THREE.AmbientLight(0x404040);
 scene.add(ambientLight);
 
-const loader = new GLTFLoader();
+const loader = new THREE.GLTFLoader();
 let pizza;
 
 loader.load(
@@ -50,14 +51,12 @@ function animate() {
 
 animate();
 
-// Aggiorna dimensioni canvas al ridimensionamento finestra
 window.addEventListener('resize', () => {
   const width = window.innerWidth;
-  const height = window.innerHeight - 100; // togli header/footer (totale 100px circa)
+  const height = window.innerHeight - 100;
 
   camera.aspect = width / height;
   camera.updateProjectionMatrix();
 
   renderer.setSize(width, height);
 });
-
