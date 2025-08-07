@@ -20,7 +20,7 @@ function App() {
         </h1>
 
         <p className="text-xl md:text-2xl text-white/90 mb-12 font-medium drop-shadow-lg">
-          La pizza avrà la sua vendetta
+          Pizza will have its revenge!
         </p>
 
         {/* Pizza Slice */}
