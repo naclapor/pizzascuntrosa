@@ -5,8 +5,8 @@ const scene = new THREE.Scene();
 scene.background = null; // Sfondo trasparente
 
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-camera.position.z = 3;
-camera.position.y = 0.5;
+camera.position.z = 1;
+camera.position.y = 0.1;
 
 const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
