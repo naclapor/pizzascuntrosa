@@ -13,12 +13,12 @@ light.position.set(2, 2, 5).normalize();
 scene.add(light);
 
 // Load MTL + OBJ
-const mtlLoader = new THREE.MTLLoader();
+const mtlLoader = new MTLLoader();
 mtlLoader.setPath('assets/');
 mtlLoader.load('pizza.mtl', (materials) => {
   materials.preload();
 
-  const objLoader = new THREE.OBJLoader();
+  const objLoader = new OBJLoader();
   objLoader.setMaterials(materials);
   objLoader.setPath('assets/');
   objLoader.load('pizza.obj', (object) => {
