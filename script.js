@@ -1,3 +1,4 @@
+// Importa Three.js e i loader come moduli ES6
 import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.149.0/build/three.module.js';
 import { MTLLoader } from 'https://cdn.jsdelivr.net/npm/three@0.149.0/examples/jsm/loaders/MTLLoader.js';
 import { OBJLoader } from 'https://cdn.jsdelivr.net/npm/three@0.149.0/examples/jsm/loaders/OBJLoader.js';
@@ -16,6 +17,7 @@ const light = new THREE.DirectionalLight(0xffffff, 1);
 light.position.set(2, 2, 5).normalize();
 scene.add(light);
 
+// Carica MTL + OBJ
 const mtlLoader = new MTLLoader();
 mtlLoader.setPath('assets/');
 mtlLoader.load('pizza.mtl', (materials) => {
