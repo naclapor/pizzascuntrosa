@@ -1,3 +1,7 @@
+import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.149.0/build/three.module.js';
+import { MTLLoader } from 'https://cdn.jsdelivr.net/npm/three@0.149.0/examples/jsm/loaders/MTLLoader.js';
+import { OBJLoader } from 'https://cdn.jsdelivr.net/npm/three@0.149.0/examples/jsm/loaders/OBJLoader.js';
+
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0xfff8ec);
 
@@ -12,7 +16,6 @@ const light = new THREE.DirectionalLight(0xffffff, 1);
 light.position.set(2, 2, 5).normalize();
 scene.add(light);
 
-// Load MTL + OBJ
 const mtlLoader = new MTLLoader();
 mtlLoader.setPath('assets/');
 mtlLoader.load('pizza.mtl', (materials) => {
@@ -25,7 +28,6 @@ mtlLoader.load('pizza.mtl', (materials) => {
     object.scale.set(1.5, 1.5, 1.5);
     scene.add(object);
 
-    // Animation loop
     function animate() {
       requestAnimationFrame(animate);
       object.rotation.y += 0.01;
