@@ -2,7 +2,7 @@
 <html lang="it">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>PIZZA SCUNTROSA</title>
   <link rel="stylesheet" href="style.css" />
   <style>
@@ -13,15 +13,18 @@
       margin: 0;
       padding: 0;
     }
+
     .container {
       padding: 2rem;
     }
+
     #3d-viewer {
       width: 100%;
       height: 400px;
       margin: 2rem auto;
       max-width: 600px;
     }
+
     .btn {
       display: inline-block;
       margin-top: 1rem;
@@ -33,9 +36,11 @@
       font-weight: bold;
       transition: background-color 0.3s ease;
     }
+
     .btn:hover {
       background-color: #c62f3d;
     }
+
     .footer {
       margin-top: 4rem;
       font-size: 0.9rem;
@@ -47,14 +52,47 @@
   <div class="container">
     <h1>PIZZA SCUNTROSA</h1>
     <div id="3d-viewer"></div>
-    <a href="https://naclapor.itch.io/pizza-scuntrosa" class="btn" target="_blank" rel="noopener noreferrer">Gioca su Itch.io</a>
+    <a href="https://naclapor.itch.io/pizza-scuntrosa" class="btn" target="_blank">Gioca su Itch.io</a>
   </div>
 
   <footer class="footer">
     © 2025 Pizza Scuntrosa. All rights reserved
   </footer>
 
-  <!-- Carica lo script come modulo ES6 -->
-  <script type="module" src="script.js"></script>
-</body>
-</html>
+  <!-- Caricamento dei moduli ES6 -->
+  <script type="module">
+    import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.149.0/build/three.module.js';
+    import { MTLLoader } from 'https://cdn.jsdelivr.net/npm/three@0.149.0/examples/jsm/loaders/MTLLoader.js';
+    import { OBJLoader } from 'https://cdn.jsdelivr.net/npm/three@0.149.0/examples/jsm/loaders/OBJLoader.js';
+
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0xfff8ec);
+
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / 400, 0.1, 1000);
+    camera.position.z = 3;
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setSize(window.innerWidth, 400);
+    document.getElementById("3d-viewer").appendChild(renderer.domElement);
+
+    const light = new THREE.DirectionalLight(0xffffff, 1);
+    light.position.set(2, 2, 5).normalize();
+    scene.add(light);
+
+    // Caricamento dei file MTL e OBJ
+    const mtlLoader = new MTLLoader();
+    mtlLoader.setPath('assets/');
+    mtlLoader.load('pizza.mtl', (materials) => {
+      materials.preload();
+
+      const objLoader = new OBJLoader();
+      objLoader.setMaterials(materials);
+      objLoader.setPath('assets/');
+      objLoader.load('pizza.obj', (object) => {
+        object.scale.set(1.5, 1.5, 1.5);
+        scene.add(object);
+
+        // Ciclo di animazione
+        function animate() {
+          requestAnimationFrame(animate);
+          objec
