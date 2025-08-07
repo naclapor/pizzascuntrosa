@@ -1,11 +1,90 @@
-#canvas-container canvas {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 0;
+/* Reset base e layout */
+* {
+  box-sizing: border-box;
 }
 
-.button-container {
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background-color: #fecf10;
+  font-family: Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* Usa spazio verticale basato sul contenuto */
+  min-height: 100vh;
+  color: #222;
+}
+
+/* Titolo */
+h1 {
+  margin: 10px 0 5px 0; /* Margini più piccoli */
+  font-weight: bold;
+  font-size: 3rem;
+  user-select: none;
+  text-align: center;
+  width: 100%;
+  color: #ffffff;
+}
+
+/* Contenitore canvas */
+#canvas-container {
+  width: 100%;
+  max-width: 600px;
+  flex-grow: 1; /* Occupa tutto lo spazio disponibile */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  /* Limita altezza per non lasciare troppo spazio */
+  max-height: 400px;
+  margin: 0;
+  padding: 0;
+}
+
+/* Canvas a dimensione controllata */
+#canvas-container canvas {
+  width: 100% !important;
+  height: auto !important;
+  display: block;
+  position: relative;
+  z-index: 0;
+  background: transparent !important;
+}
+
+/* Bottone itch */
+.btn-itch {
+  background-color: #e62e00;
+  color: white;
+  padding: 15px 30px;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  font-size: 1.2rem;
+  cursor: pointer;
+  text-decoration: none;
+  user-select: none;
+  margin: 10px 0 5px 0; /* Margini più piccoli */
+  box-shadow: 0 5px #b02a00;
+  transition: background-color 0.3s;
+  display: inline-block;
+  position: relative;
+  z-index: 1;
+}
+
+.btn-itch:hover {
+  background-color: #ff3f1a;
+}
+
+/* Footer */
+footer {
+  margin: 5px 0 10px 0; /* Riduci spazio sopra */
+  font-size: 0.9rem;
+  user-select: none;
+  text-align: center;
+  width: 100%;
   position: relative;
   z-index: 1;
 }
