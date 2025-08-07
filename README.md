@@ -1,2 +1,2 @@
-# pizzascuntrosa
-Like Cuphead, but with Pizza!
+# Pizza Scuntrosa
+Pizza will have its revenge
