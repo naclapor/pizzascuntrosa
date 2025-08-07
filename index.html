@@ -23,6 +23,7 @@
       user-select: none;
       text-align: center;
       width: 100%;
+      color: #ac090b; /* titolo rosso scuro */
     }
     #canvas-container {
       flex: 1;
@@ -92,14 +93,7 @@
     renderer.setSize(container.clientWidth, container.clientHeight);
     container.appendChild(renderer.domElement);
 
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
-    scene.add(ambientLight);
-
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 0.7);
-    directionalLight.position.set(0, 1, 1);
-    scene.add(directionalLight);
-
-    // Geometria triangolo (pizza)
+    // Triangolo arancione (#d97c1f)
     const geometry = new THREE.BufferGeometry();
     const vertices = new Float32Array([
       0,  1, 0,
@@ -108,7 +102,7 @@
     ]);
     geometry.setAttribute('position', new THREE.BufferAttribute(vertices, 3));
 
-    const material = new THREE.MeshStandardMaterial({ color: 0xd97c1f, side: THREE.DoubleSide });
+    const material = new THREE.MeshBasicMaterial({ color: 0xd97c1f, side: THREE.DoubleSide });
     const triangle = new THREE.Mesh(geometry, material);
     scene.add(triangle);
 
