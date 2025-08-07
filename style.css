@@ -1,0 +1,54 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Arial', sans-serif;
+  background-color: #fff5e1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+.container {
+  text-align: center;
+}
+
+h1 {
+  font-size: 3rem;
+  color: #d6341d;
+  margin-bottom: 1rem;
+}
+
+.pizza-container {
+  width: 200px;
+  height: 200px;
+  margin: 0 auto 2rem;
+  perspective: 1000px;
+}
+
+.pizza {
+  width: 100%;
+  height: auto;
+  animation: rotate 4s linear infinite;
+}
+
+@keyframes rotate {
+  0% { transform: rotateY(0deg); }
+  100% { transform: rotateY(360deg); }
+}
+
+.btn {
+  display: inline-block;
+  padding: 12px 24px;
+  background-color: #ff5722;
+  color: white;
+  text-decoration: none;
+  font-size: 1.2rem;
+  border-radius: 6px;
+  transition: background 0.3s ease;
+}
+
+.btn:hover {
+  background-color: #e64a19;
+}
