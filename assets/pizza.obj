@@ -1,6 +1,6 @@
 # Blender v2.79 (sub 0) OBJ File: ''
 # www.blender.org
-mtllib pizza-color.mtl
+mtllib pizza.mtl
 o pizza
 v 5.912119 5.402790 -2.209980
 v 4.832513 5.558504 -3.242830
