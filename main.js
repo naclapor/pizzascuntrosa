@@ -37,7 +37,7 @@ directionalLight.castShadow = true;
 scene.add(directionalLight);
 
 // Caricamento modello pizza.glb dalla cartella public/pizza/
-const loader = new GLTFLoader().setPath('public/pizza/');
+const loader = new GLTFLoader();
 
 loader.load('pizza.glb', (gltf) => {
   const model = gltf.scene;
