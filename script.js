@@ -3,7 +3,7 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
 const renderer = new THREE.WebGLRenderer({ antialias: true });
-renderer.background = new THREE.Color(0xfecf10);
+//renderer.background = new THREE.Color(0xfecf10);
 //renderer.outputColorSpace = THREE.SRGBColorSpace;
 
 renderer.setSize(window.innerWidth, window.innerHeight);
@@ -20,6 +20,7 @@ const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 1000);
 camera.position.set(0, 0, 0);
 
+/*
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
 controls.enablePan = false;
@@ -31,7 +32,6 @@ controls.autoRotate = false;
 controls.target = new THREE.Vector3(0, 1, 0);
 controls.update();
 
-/*
 const groundGeometry = new THREE.PlaneGeometry(20, 20, 32, 32);
 groundGeometry.rotateX(-Math.PI / 2);
 const groundMaterial = new THREE.MeshStandardMaterial({
@@ -63,7 +63,7 @@ loader.load('pizza.glb', (gltf) => {
     }
   });
 
-  mesh.position.set(0, 1.05, -1);
+  mesh.position.set(0, 0, 0);
   scene.add(mesh);
 
   document.getElementById('progress-container').style.display = 'none';
