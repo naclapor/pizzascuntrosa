@@ -13,6 +13,7 @@
       align-items: center;
       justify-content: space-between;
       color: #222;
+      overflow: hidden;
     }
     h1 {
       margin-top: 20px;
@@ -23,17 +24,18 @@
       user-select: none;
     }
     #canvas-container {
-      flex: 1;
       width: 100%;
       max-width: 600px;
+      height: 400px;
       display: flex;
       justify-content: center;
       align-items: center;
     }
     canvas {
       width: 100%;
-      height: auto;
+      height: 100%;
       display: block;
+      object-fit: contain;
     }
     .btn-itch {
       background-color: #e62e00;
@@ -76,12 +78,12 @@
     const scene = new THREE.Scene();
 
     const camera = new THREE.PerspectiveCamera(
-      45,
+      60,
       container.clientWidth / container.clientHeight,
       0.1,
       1000
     );
-    camera.position.z = 3;
+    camera.position.z = 4;
 
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setSize(container.clientWidth, container.clientHeight);
@@ -94,25 +96,21 @@
     directionalLight.position.set(0, 1, 1);
     scene.add(directionalLight);
 
-    // Geometria triangolo piano (2D) usando BufferGeometry
+    // Triangolo piano arancione #d97c1f
     const geometry = new THREE.BufferGeometry();
-
     const vertices = new Float32Array([
-      0,  1, 0,    // vertice alto (x,y,z)
-     -0.866, -0.5, 0,  // vertice basso sinistro (cos 30°, sin 30°)
-      0.866, -0.5, 0   // vertice basso destro
+      0,  1, 0,
+     -0.866, -0.5, 0,
+      0.866, -0.5, 0
     ]);
     geometry.setAttribute('position', new THREE.BufferAttribute(vertices, 3));
-
-    // Materiale arancione/giallo pizza
-    const material = new THREE.MeshStandardMaterial({ color: 0xffc845, side: THREE.DoubleSide });
-
+    const material = new THREE.MeshStandardMaterial({ color: 0xd97c1f, side: THREE.DoubleSide });
     const triangle = new THREE.Mesh(geometry, material);
     scene.add(triangle);
 
     function animate() {
       requestAnimationFrame(animate);
-      triangle.rotation.y += 0.02;  // rotazione più veloce
+      triangle.rotation.y += 0.02;
       renderer.render(scene, camera);
     }
     animate();
