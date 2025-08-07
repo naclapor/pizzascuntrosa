@@ -21,6 +21,8 @@
       font-weight: bold;
       font-size: 3rem;
       user-select: none;
+      text-align: center;
+      width: 100%;
     }
     #canvas-container {
       flex: 1;
@@ -69,9 +71,8 @@
   </a>
   <footer>© 2025 Pizza Scuntrosa. All rights reserved.</footer>
 
-  <!-- Three.js + GLTFLoader -->
+  <!-- THREE.js -->
   <script src="https://cdn.jsdelivr.net/npm/three@0.150.1/build/three.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.150.1/examples/js/loaders/GLTFLoader.js"></script>
 
   <script>
     const container = document.getElementById('canvas-container');
@@ -90,21 +91,18 @@
     directionalLight.position.set(0, 1, 1);
     scene.add(directionalLight);
 
-    const loader = new THREE.GLTFLoader();
-    loader.load('pizza.glb', (gltf) => {
-      const model = gltf.scene;
-      model.rotation.x = -0.5;
-      scene.add(model);
+    // Cubo rosso di test
+    const geometry = new THREE.BoxGeometry(1, 1, 1);
+    const material = new THREE.MeshStandardMaterial({ color: 0xff0000 });
+    const cube = new THREE.Mesh(geometry, material);
+    scene.add(cube);
 
-      function animate() {
-        requestAnimationFrame(animate);
-        model.rotation.y += 0.01;
-        renderer.render(scene, camera);
-      }
-      animate();
-    }, undefined, (error) => {
-      console.error('Errore caricamento pizza.glb:', error);
-    });
+    function animate() {
+      requestAnimationFrame(animate);
+      cube.rotation.y += 0.01;
+      renderer.render(scene, camera);
+    }
+    animate();
 
     window.addEventListener('resize', () => {
       const width = container.clientWidth;
