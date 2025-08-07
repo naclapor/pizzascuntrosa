@@ -71,8 +71,9 @@
   </a>
   <footer>© 2025 Pizza Scuntrosa. All rights reserved.</footer>
 
-  <!-- THREE.js -->
+  <!-- Three.js + GLTFLoader -->
   <script src="https://cdn.jsdelivr.net/npm/three@0.150.1/build/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.150.1/examples/js/loaders/GLTFLoader.js"></script>
 
   <script>
     const container = document.getElementById('canvas-container');
@@ -91,18 +92,22 @@
     directionalLight.position.set(0, 1, 1);
     scene.add(directionalLight);
 
-    // Cubo rosso di test
-    const geometry = new THREE.BoxGeometry(1, 1, 1);
-    const material = new THREE.MeshStandardMaterial({ color: 0xff0000 });
-    const cube = new THREE.Mesh(geometry, material);
-    scene.add(cube);
+    const loader = new THREE.GLTFLoader();
 
-    function animate() {
-      requestAnimationFrame(animate);
-      cube.rotation.y += 0.01;
-      renderer.render(scene, camera);
-    }
-    animate();
+    loader.load('pizza.glb', (gltf) => {
+      const model = gltf.scene;
+      model.rotation.x = -0.5; // regola rotazione verticale se vuoi
+      scene.add(model);
+
+      function animate() {
+        requestAnimationFrame(animate);
+        model.rotation.y += 0.01; // rotazione continua
+        renderer.render(scene, camera);
+      }
+      animate();
+    }, undefined, (error) => {
+      console.error('Errore caricamento pizza.glb:', error);
+    });
 
     window.addEventListener('resize', () => {
       const width = container.clientWidth;
