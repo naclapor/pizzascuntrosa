@@ -25,7 +25,7 @@ const loader = new GLTFLoader();
 let pizza;
 
 loader.load(
-  './public/pizza/pizza.glb',
+  'pizza.glb',
   (gltf) => {
     pizza = gltf.scene;
     pizza.position.set(0, -0.5, 0); // Alza leggermente il modello
