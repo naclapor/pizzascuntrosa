@@ -1,0 +1,11 @@
+#canvas-container canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+}
+
+.button-container {
+  position: relative;
+  z-index: 1;
+}
